@@ -1,12 +1,16 @@
 public abstract class DisplayPlan {
 
-    StringBuilder result = new StringBuilder();
-    StringBuilder quotient = new StringBuilder();
-    StringBuilder reminder= new StringBuilder();
+    protected StringBuilder result = new StringBuilder();
+    protected StringBuilder quotient = new StringBuilder();
+    protected StringBuilder reminder= new StringBuilder();
 
-    abstract StringBuilder display(Long dividend, int divisor);
+    protected char newLine = '\n';
+    protected char whitespace = ' ';
+    protected String dashChar = "|";
 
-    String assemblyString(long numberOfSymbols, char symbol) {
+    abstract StringBuilder display(int dividend, int divisor);
+
+    String assemblyString(int numberOfSymbols, char symbol) {
         StringBuilder string = new StringBuilder();
         for (int i = 0; i < numberOfSymbols; i++) {
             string.append(symbol);
@@ -14,13 +18,11 @@ public abstract class DisplayPlan {
         return string.toString();
     }
 
-    int calculateDigit(long i) {
+    int calculateDigit(int i) {
         return (int) Math.log10(i) + 1;
     }
 
     String makeDivider(Integer reminderNumber, Integer tab) {
         return assemblyString(tab, ' ') + assemblyString(calculateDigit(reminderNumber), '-');
     }
-
-    abstract void modifyResultToView(Long dividend, Integer divisor);
 }

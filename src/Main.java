@@ -1,6 +1,11 @@
 import java.util.Scanner;
 
 public class Main {
+    public enum DivisionType {
+        CLASSIC,
+        GERMAN
+    }
+
     public static void main(String[] args) throws InputDataException {
         Scanner scanner = new Scanner(System.in);
 
@@ -19,16 +24,18 @@ public class Main {
         }
 
         System.out.println("Выберите систему деления: 1 - классическая, 2 - немецкая");
-        String divisionType = scanner.nextLine();
+        String divisionTypeScanner = scanner.nextLine();
 
-        if (!divisor.matches("-?\\d+(\\.\\d+)?")) {
+        if (!divisionTypeScanner.equals("1") && !divisionTypeScanner.equals("2")) {
             throw new InputDataException("Неверный формат деления");
         }
 
-        Divider divider = new Divider();
+        DivisionType divisionType = divisionTypeScanner.equals("1") ? DivisionType.CLASSIC : DivisionType.GERMAN;
+
+        DivisionHandler divider = new DivisionHandler();
 
         try {
-            String result = divider.divide(Long.parseLong(dividend), Integer.parseInt(divisor), Integer.parseInt(divisionType));
+            String result = divider.divide(Integer.parseInt(dividend), Integer.parseInt(divisor), divisionType);
             System.out.println(result);
         } catch (DivisionException e) {
             throw new DivisionException(e.getMessage());
